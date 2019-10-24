@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <welcome-file-list>
+        <welcome-file>login.jsp</welcome-file>
+    </welcome-file-list>
+    <servlet>
+        <servlet-name>MovimienController</servlet-name>
+        <servlet-class>ar.com.kompass.controller.MovimienController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CuentaBuscaController</servlet-name>
+        <servlet-class>ar.com.kompass.controller.CuentaBuscaController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LogoutController</servlet-name>
+        <servlet-class>ar.com.kompass.controller.LogoutController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MovimienController</servlet-name>
+        <url-pattern>/Movimien</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CuentaBuscaController</servlet-name>
+        <url-pattern>/CuentaBusca</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LogoutController</servlet-name>
+        <url-pattern>/Logout</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>Login</servlet-name>
+        <servlet-class>ar.com.kompass.controller.LoginController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Cuenta</servlet-name>
+        <servlet-class>ar.com.kompass.controller.CuentaController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Login</servlet-name>
+        <url-pattern>/Login</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Cuenta</servlet-name>
+        <url-pattern>/Cuenta</url-pattern>
+    </servlet-mapping>
+    <error-page>
+        <exception-type> java.sql.SQLException </exception-type>
+        <location>/errorcuenta.jsp</location>
+    </error-page>
+    <error-page>
+        <exception-type> javax.servlet.ServletException</exception-type>
+        <location>/errorcuenta.jsp</location>
+    </error-page>
+</web-app>

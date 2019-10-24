@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.5.1.final using JasperReports Library version 6.5.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" whenNoDataType="NoPages" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9dcb15ee-ae9a-4b7d-9ed0-f203f492832a">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="0"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="1000"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="GastosJ"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="pdefec" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="phafec" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select 0 as cuenta,'Saldo Inicial'::character varying(30) as nombre ,3 as tipo,'01/01/2016'::date as fecha,
+coalesce(sum(mov.importe*case cuentas.tipo when 1 then +1 else -1 end),0) as importe,
+'Saldo Inicial '::character varying(30) as conce
+from movimien mov
+left join cuentas on mov.cuentaid=cuentas.id
+where mov.fecha<$P{pdefec} 
+union all
+select mov.cuentaid as cuenta,cuentas.nombre,cuentas.tipo,mov.fecha,(mov.importe*case cuentas.tipo when 1 then +1 else -1 end) as importe,mov.concepto as conce
+from movimien mov
+left join cuentas on mov.cuentaid=cuentas.id 
+where mov.fecha>= $P{pdefec}  and mov.fecha<= $P{phafec} 
+order by fecha]]>
+	</queryString>
+	<field name="cuenta" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="cuenta"/>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre"/>
+	</field>
+	<field name="tipo" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="tipo"/>
+	</field>
+	<field name="fecha" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="fecha"/>
+	</field>
+	<field name="importe" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="importe"/>
+	</field>
+	<field name="conce" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="conce"/>
+	</field>
+	<variable name="Total" class="java.lang.Float" calculation="Sum">
+		<variableExpression><![CDATA[($F{importe})]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0F]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="72" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="1" width="555" height="43" backcolor="#000000" uuid="126378c6-875e-4b77-be0e-160c9577a49a"/>
+				<staticText>
+					<reportElement x="0" y="10" width="549" height="27" forecolor="#FFFFFF" uuid="8d49913e-9937-4c56-a25f-8335caa01f23"/>
+					<textElement textAlignment="Center">
+						<font fontName="Verdana" size="18" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Reporte Detallado de Movimientos]]></text>
+				</staticText>
+			</frame>
+			<frame>
+				<reportElement mode="Opaque" x="1" y="45" width="554" height="23" forecolor="#000000" backcolor="#CC0000" uuid="d1e6879e-c0ed-4d8d-b929-aa159b82645a"/>
+				<textField>
+					<reportElement x="2" y="3" width="431" height="19" forecolor="#FFFFFF" uuid="c4d8c2e0-1ac9-4a15-9a08-50f52b4540ef"/>
+					<textElement>
+						<font fontName="Verdana"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Desde el "+new SimpleDateFormat("dd/MM/yyyy").format($P{pdefec})+". Hasta el "+new SimpleDateFormat("dd/MM/yyyy").format($P{phafec})]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="27" splitType="Stretch">
+			<rectangle>
+				<reportElement mode="Opaque" x="0" y="4" width="555" height="20" backcolor="#999999" uuid="aa4ef59c-3d58-49f2-963f-d8961d5dd8fa"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="3" y="10" width="39" height="12" uuid="b8025655-bf90-4299-8afe-50e69eecbdf0"/>
+				<textElement textAlignment="Center">
+					<font fontName="Verdana" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cuenta]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="42" y="10" width="136" height="12" uuid="980e5585-c9d4-4bdb-9551-6b0813dcbebd"/>
+				<textElement textAlignment="Center">
+					<font fontName="Verdana" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descripcion]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="354" y="10" width="60" height="12" uuid="ed94cca8-6638-45d4-883c-ff4f33a57979"/>
+				<textElement textAlignment="Center">
+					<font fontName="Verdana" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Egresos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="180" y="10" width="56" height="12" uuid="e056babc-2fce-4fa4-8f1d-31f5c79ab421"/>
+				<textElement textAlignment="Center">
+					<font fontName="Verdana" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="238" y="10" width="116" height="12" uuid="9c8ce83c-67b8-4a2c-9275-8dbabab08519"/>
+				<textElement textAlignment="Center">
+					<font fontName="Verdana" size="8" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Concepto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="418" y="10" width="62" height="12" uuid="74d4f1b0-ef1e-490b-ab30-7804936df97e"/>
+				<textElement textAlignment="Center">
+					<font fontName="Verdana" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ingresos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="485" y="10" width="56" height="12" uuid="fcd29f61-ceaa-43b1-8603-8ef5434c951d"/>
+				<textElement textAlignment="Center">
+					<font fontName="Verdana" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Subtotal]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="23" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="3" width="42" height="17" uuid="5f6df409-4e04-4121-8407-35d1034b5d05"/>
+				<textElement>
+					<font fontName="Verdana" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cuenta}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="42" y="3" width="136" height="17" uuid="400be365-36b2-4d05-a575-9cd5fcd3e28a"/>
+				<textElement>
+					<font fontName="Verdana" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="180" y="3" width="50" height="17" uuid="c44fbc32-aeae-4372-b9a4-fbb7d95504b2"/>
+				<textElement>
+					<font fontName="Verdana" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yy").format($F{fecha})]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00">
+				<reportElement x="355" y="3" width="59" height="17" uuid="9f7d2685-6848-4d5d-847e-703a7ab7ce03"/>
+				<textElement textAlignment="Right">
+					<font fontName="Verdana" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{importe}!= new BigDecimal(0) ? $F{importe} : new BigDecimal(0)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="235" y="3" width="118" height="17" uuid="8487d431-e532-40f6-aaeb-a5efc5b47be0"/>
+				<textElement>
+					<font fontName="Verdana" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{conce}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00">
+				<reportElement x="421" y="3" width="60" height="17" uuid="083a200b-5db3-4c25-9809-01af56c2bbe1"/>
+				<textElement textAlignment="Right">
+					<font fontName="Verdana" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{importe}== new BigDecimal(0) ? $F{importe} : new BigDecimal(0)]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00">
+				<reportElement x="488" y="2" width="56" height="17" uuid="d3194ea5-99a8-40e7-89ee-e17f3a7fa965"/>
+				<textElement textAlignment="Right">
+					<font fontName="Verdana" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Total}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="36" splitType="Stretch">
+			<staticText>
+				<reportElement x="7" y="4" width="56" height="17" uuid="1e64bce8-dd15-4567-84ec-011774ddb6e2"/>
+				<textElement textAlignment="Center">
+					<font fontName="Verdana" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<textField pattern="###0.00">
+				<reportElement x="490" y="4" width="56" height="17" uuid="cc945807-4156-426a-87b3-2c28daa01b1c"/>
+				<textElement textAlignment="Right">
+					<font fontName="Verdana" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Total}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="48" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-1" y="2" width="555" height="24" forecolor="#D0B48E" backcolor="#000000" uuid="7307bbfa-f3c9-4990-85a4-53f2c58af837"/>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement x="4" y="2" width="136" height="20" forecolor="#FFFFFF" uuid="6357420f-7b4d-49a0-b0d0-95684d447a5f"/>
+					<textElement>
+						<font fontName="Verdana"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="422" y="2" width="80" height="20" forecolor="#FFFFFF" uuid="7bdd168b-8f8b-448b-bb4d-248349c1f9e6"/>
+					<textElement textAlignment="Right">
+						<font fontName="Verdana"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Report">
+					<reportElement x="507" y="2" width="40" height="20" forecolor="#FFFFFF" uuid="0e92bb70-532c-438a-8f70-e6c91852db03"/>
+					<textElement>
+						<font fontName="Verdana"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+</jasperReport>
